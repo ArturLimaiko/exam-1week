@@ -1,39 +1,56 @@
 import React from 'react';
 
 
-export const VideoHeader = (props: {videoName: string}) => {
-    return <div>
-        😀 {props.videoName}
-    </div>
-}
-export const VideoContent = (props: {videoContent: string}) => {
-    return <div>
-        📼 <a href={props.videoContent}>{props.videoContent}</a>
-    </div>
-}
-export const VideoDescription = (props: {videoDescription: string}) => {
-    return <div>
-        📑 {props.videoDescription}
-    </div>
+type NewsType = {
+    title: string
+    author: string
 }
 
-export const YoutubeVideo = (props: any) => {
-    return <div>
-        <VideoHeader videoName={props.video.title} />
-        <VideoContent  videoContent={props.video.link}/>
-        <VideoDescription  videoDescription={props.video.description}/>
-    </div>
+type ArticleType = {
+    title: string
+    date: string
+    text: string
 }
 
-
-export const Components2 = () => {
-    const video = {
-        title: 'Samurai way',
-        link: 'https://www.youtube.com/watch?v=gb7gMluAeao&list=PLcvhF2Wqh7DNVy1OCUpG3i5lyxyBWhGZ8',
-        description: 'Best free react-course'
+type PagePropsType = {
+    pageData: {
+        news: NewsType[]
+        mainArticle: ArticleType
     }
+}
 
-    return <YoutubeVideo video={video} />
+
+export const Page: React.FC<PagePropsType> = (props) => {
+    return <div>
+        <article>
+            <h1>Название: {props.pageData.mainArticle.title}</h1>
+            <div>{props.pageData.mainArticle.date}</div>
+            <div>{props.pageData.mainArticle.text}</div>
+        </article>
+        <aside>Articles:
+            <ul>
+                {props.pageData.news.map(news => <li>{news.title}, {news.author}</li>)}
+            </ul>
+        </aside>
+    </div>
+}
+
+
+export const Components3 = () => {
+    const pageData = {
+        news: [
+            {title: "Новость 1", author: 'Гена Криворуков'},
+            {title: "Новость 2", author: 'Алла Томаровна'},
+            {title: "Новость 3", author: 'Алексей Сапожник'},
+            {title: "Новость 4", author: 'Галя Нананьева'},
+        ],
+        mainArticle: {
+            title: "Главная статья",
+            date: "21.12.2033",
+            text: "Текс главной статьи вот тут должен быть"
+        }
+    }
+    return <div>
+        <Page pageData={pageData}/>
+    </div>
 };
-
-
